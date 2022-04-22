@@ -192,6 +192,7 @@ class CheckinActivity : AppCompatActivity() {
     override fun onRestart() {
         super.onRestart()
         var currentUser =intent?.getParcelableExtra<TableUserItem>("data")
+//        isUpload = false
         imageButton.setOnClickListener({
             pickImage()
             imageButton.setVisibility(View.GONE);
@@ -202,7 +203,7 @@ class CheckinActivity : AppCompatActivity() {
             if (isUpload){
                 saveData(currentUser!!)
                 goToStatus()
-
+                Toast.makeText(this, "saved",Toast.LENGTH_SHORT).show()
             }else{
                 val intent = Intent(this@CheckinActivity, Status::class.java)
 //                intent.putExtra("data", absen)

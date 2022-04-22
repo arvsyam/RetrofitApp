@@ -28,13 +28,33 @@ class Status : AppCompatActivity() {
             txtGeo.isVisible = false
             btn_done.setOnClickListener({
                 finish()
-                val intentLog = Intent(this@Status, CheckinActivity::class.java)
-                startActivity(intentLog)
+
 
             })
         }
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+
+        var currentAbsen =intent?.getParcelableExtra<AbsenItem>("data")
+
+        if (currentAbsen != null){
+            txtStatus.setText("Login Foto Selfie Berhasil !!")
+            txtGeo.setText("Get Tag : ${currentAbsen.location}")
+            btn_done.setOnClickListener({
+                finish()
+            })
+        }else{
+            txtStatus.setText("Login Foto Selfie Gagal !!")
+            imgStatus.setImageResource(R.drawable.cross)
+            btn_done.setText("Re-Scan")
+            txtGeo.isVisible = false
+            btn_done.setOnClickListener({
+                finish()
 
 
-
+            })
+        }
     }
 }
