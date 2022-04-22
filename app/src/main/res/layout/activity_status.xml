@@ -6,16 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".Status">
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="FOTO SELFIE"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        tools:layout_editor_absoluteX="53dp"
-        tools:layout_editor_absoluteY="68dp" />
-
     <View
         android:id="@+id/view"
         android:layout_width="wrap_content"
@@ -25,4 +15,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView4" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FOTO SELFIE"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="53dp"
+        tools:layout_editor_absoluteY="68dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,10 +8,10 @@
     tools:context=".HomeActivity" >
 
     <View
-        android:id="@+id/view3"
+        android:id="@+id/viewCheck"
         android:layout_width="300dp"
         android:layout_height="150dp"
-        android:background="#0000"
+        android:background="#7DFE61"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -23,41 +23,48 @@
         android:id="@+id/btn_checkin"
         android:layout_width="100dp"
         android:layout_height="80dp"
-        app:layout_constraintBottom_toBottomOf="@+id/view3"
-        app:layout_constraintEnd_toEndOf="@+id/view3"
-        app:layout_constraintStart_toStartOf="@+id/view3"
-        app:layout_constraintTop_toTopOf="@+id/view3"
+        app:layout_constraintBottom_toBottomOf="@+id/viewCheck"
+        app:layout_constraintEnd_toEndOf="@+id/viewCheck"
+        app:layout_constraintStart_toStartOf="@+id/viewCheck"
+        app:layout_constraintTop_toTopOf="@+id/viewCheck"
         app:layout_constraintVertical_bias="0.171"
-        app:srcCompat="@android:drawable/checkbox_off_background" />
+        android:scaleType="fitXY"
+        android:src="@drawable/login"/>
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/txtCek"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Check In"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/view3"
-        app:layout_constraintEnd_toEndOf="@+id/view3"
-        app:layout_constraintStart_toStartOf="@+id/view3"
-        app:layout_constraintTop_toBottomOf="@+id/btn_checkin" />
+        app:layout_constraintBottom_toBottomOf="@+id/viewCheck"
+        app:layout_constraintEnd_toEndOf="@+id/viewCheck"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/viewCheck"
+        app:layout_constraintTop_toTopOf="@+id/viewCheck"
+        app:layout_constraintVertical_bias="0.855" />
 
     <ImageButton
-        android:id="@+id/btn_checkedin"
+        android:id="@+id/btn_checkout"
         android:layout_width="100dp"
         android:layout_height="80dp"
-        app:srcCompat="@android:drawable/checkbox_on_background"
-        tools:layout_editor_absoluteX="5dp"
-        tools:layout_editor_absoluteY="574dp" />
+        android:scaleType="fitXY"
+        android:src="@drawable/logout"
+        app:layout_constraintBottom_toBottomOf="@+id/viewCheck"
+        app:layout_constraintEnd_toEndOf="@+id/viewCheck"
+        app:layout_constraintStart_toStartOf="@+id/viewCheck"
+        app:layout_constraintTop_toTopOf="@+id/viewCheck"
+        app:layout_constraintVertical_bias="0.157" />
 
     <View
-        android:id="@+id/view2"
+        android:id="@+id/viewHis"
         android:layout_width="150dp"
         android:layout_height="150dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="#0000"
+        android:background="#F44336"
         app:layout_constraintHorizontal_bias="0.084"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -67,11 +74,11 @@
         android:id="@+id/btn_history"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        app:layout_constraintBottom_toBottomOf="@+id/view2"
-        app:layout_constraintEnd_toEndOf="@+id/view2"
+        app:layout_constraintBottom_toBottomOf="@+id/viewHis"
+        app:layout_constraintEnd_toEndOf="@+id/viewHis"
         app:layout_constraintHorizontal_bias="0.487"
-        app:layout_constraintStart_toStartOf="@+id/view2"
-        app:layout_constraintTop_toTopOf="@+id/view2"
+        app:layout_constraintStart_toStartOf="@+id/viewHis"
+        app:layout_constraintTop_toTopOf="@+id/viewHis"
         app:layout_constraintVertical_bias="0.262"
         app:srcCompat="@android:drawable/ic_menu_recent_history" />
 
@@ -81,10 +88,10 @@
         android:layout_height="wrap_content"
         android:text="History"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/view2"
-        app:layout_constraintEnd_toEndOf="@+id/view2"
+        app:layout_constraintBottom_toBottomOf="@+id/viewHis"
+        app:layout_constraintEnd_toEndOf="@+id/viewHis"
         app:layout_constraintHorizontal_bias="0.476"
-        app:layout_constraintStart_toStartOf="@+id/view2"
+        app:layout_constraintStart_toStartOf="@+id/viewHis"
         app:layout_constraintTop_toTopOf="@+id/btn_history"
         app:layout_constraintVertical_bias="0.727" />
 
@@ -92,15 +99,16 @@
         android:id="@+id/view4"
         android:layout_width="150dp"
         android:layout_height="150dp"
+        android:background="#646C68"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.584"
-        app:layout_constraintStart_toEndOf="@+id/view2"
-        app:layout_constraintTop_toBottomOf="@+id/view3"
+        app:layout_constraintStart_toEndOf="@+id/viewHis"
+        app:layout_constraintTop_toBottomOf="@+id/viewCheck"
         app:layout_constraintVertical_bias="0.066" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/btn_logout"
         android:layout_width="70dp"
         android:layout_height="70dp"
         app:layout_constraintBottom_toBottomOf="@+id/view4"

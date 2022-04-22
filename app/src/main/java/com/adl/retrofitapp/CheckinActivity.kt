@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.adl.retrofitapp.model.AbsenItem
 import com.adl.retrofitapp.model.PostAbsenResponse
 import com.adl.retrofitapp.model.TableUserItem
 import com.adl.retrofitapp.service.RetrofitConfigAbsen
@@ -30,8 +31,6 @@ import java.util.*
 class CheckinActivity : AppCompatActivity() {
     lateinit var photoURI: Uri
     var isUpload = false
-    var MEDIA_TYPE_TEXT: MediaType? = "text/plain".toMediaTypeOrNull()
-
 
     private val cameraLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (it.resultCode == Activity.RESULT_OK) {
@@ -47,9 +46,6 @@ class CheckinActivity : AppCompatActivity() {
         setContentView(R.layout.activity_checkin)
         var currentUser =intent?.getParcelableExtra<TableUserItem>("data")
 
-
-
-
         imageButton.setOnClickListener({
            pickImage()
             imageButton.setVisibility(View.GONE);
@@ -58,9 +54,7 @@ class CheckinActivity : AppCompatActivity() {
 
         btn_absen_login.setOnClickListener({
             if (isUpload){
-//                finish()
-                saveData()
-//                Toast.makeText(this, "success",Toast.LENGTH_SHORT).show()
+                saveData(currentUser!!)
 
             }else{
                 Toast.makeText(this, "failed",Toast.LENGTH_SHORT).show()
@@ -78,14 +72,16 @@ class CheckinActivity : AppCompatActivity() {
         )
     }
 
-    fun saveData(){
-
+    fun saveData(user:TableUserItem){
         val localDate = Calendar.getInstance()
         val sdf = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH)
         val time = sdf.format(localDate.time)
-        Log.d("time","${time}")
+
+
+
+
         RetrofitConfigAbsen().getService()
-            .addAbsen(createRB(et_username.text.toString()),createRB(time.toString()), createRB("2.12313 , -1.3213"),uploadImage(photoURI,"image"))
+            .addAbsen(createRB(user.username!!),createRB(time.toString()),createRB(""), createRB("2.12313 , -1.3213"),uploadImage(photoURI,"image"))
             .enqueue(object : Callback<PostAbsenResponse> {
                 override fun onResponse(
                     call: Call<PostAbsenResponse>,
@@ -93,18 +89,17 @@ class CheckinActivity : AppCompatActivity() {
                 ) {
                     if(response.isSuccessful()){
                         Log.d("resp","${response.body()}")
-//                        Toast.makeText(this@CheckinActivity,"Saved", Toast.LENGTH_LONG).show()
-//                        finish()
+
+                        Toast.makeText(this@CheckinActivity,"Checkin Successfull", Toast.LENGTH_LONG).show()
+                        finish()
                     }else{
                         Log.d("not resp","${response.body()}")
                         Toast.makeText(this@CheckinActivity,"not Saved", Toast.LENGTH_LONG).show()
                     }
                 }
-
                 override fun onFailure(call: Call<PostAbsenResponse>, t: Throwable) {
                     Log.e("error request",t.localizedMessage,t)
                 }
-
             })
     }
 
@@ -115,8 +110,6 @@ class CheckinActivity : AppCompatActivity() {
     fun uploadImage(uri:Uri,param:String): MultipartBody.Part {
         val file: File = File(uri.path)
         val rb: RequestBody =  file.asRequestBody("image/jpeg".toMediaTypeOrNull())
-
         return MultipartBody.Part.createFormData(param,file.name,rb)
-
     }
 }

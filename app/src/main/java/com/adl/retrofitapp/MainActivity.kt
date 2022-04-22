@@ -42,9 +42,9 @@ class MainActivity : AppCompatActivity() {
                         var currentUser = response.body()?.data?.tableUser?.get(0)
                         if(currentUser?.password == et_password.text.toString()){
                             Toast.makeText(this@MainActivity,"Login Successfull",Toast.LENGTH_SHORT).show()
-                            val intent = Intent(this@MainActivity, HomeActivity::class.java)
-                            intent.putExtra("data", currentUser)
-                            startActivity(intent)
+                            val intentLog = Intent(this@MainActivity, HomeActivity::class.java)
+                            intentLog.putExtra("data", currentUser)
+                            startActivity(intentLog)
                         }else{
                             Toast.makeText(this@MainActivity,"Incorrect password",Toast.LENGTH_LONG).show()
                         }
@@ -60,5 +60,11 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        et_username.setText("")
+        et_password.setText("")
     }
 }
