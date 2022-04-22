@@ -1,6 +1,7 @@
 package com.adl.retrofitapp
 
 import android.content.Intent
+import android.location.Location
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,6 +14,7 @@ import com.adl.retrofitapp.model.GetAbsenResponse
 import com.adl.retrofitapp.model.PostAbsenResponse
 import com.adl.retrofitapp.model.TableUserItem
 import com.adl.retrofitapp.service.RetrofitConfigAbsen
+import com.robin.locationgetter.EasyLocation
 import kotlinx.android.synthetic.main.activity_home.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -29,12 +31,15 @@ class HomeActivity : AppCompatActivity() {
     var isCheckin = false
     lateinit var photoURI: Uri
     lateinit var currentAbsen:AbsenItem
+    lateinit var latitude:String
+    lateinit var longitude:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
         var currentUser =intent?.getParcelableExtra<TableUserItem>("data")
+        setLocation()
 
         btn_checkout.setVisibility(View.GONE);
         btn_history.isEnabled = false
@@ -95,7 +100,7 @@ class HomeActivity : AppCompatActivity() {
         val time = sdf.format(localDate.time)
 
         RetrofitConfigAbsen().getService()
-            .updateAbsen(createRB(absen.id!!),createRB(absen.username!!),createRB(currentAbsen.login!!),createRB(time.toString()),createRB("10.023 , -12.23213"))
+            .updateAbsen(createRB(absen.id!!),createRB(absen.username!!),createRB(currentAbsen.login!!),createRB(time.toString()),createRB("${latitude} , ${longitude}"))
             .enqueue(object : Callback<PostAbsenResponse> {
                 override fun onResponse(
                     call: Call<PostAbsenResponse>,
@@ -137,6 +142,33 @@ class HomeActivity : AppCompatActivity() {
         btn_checkin.isEnabled = true
         btn_history.isEnabled = true
         txtCek.setText("Check Out")
+    }
+
+    fun setLocation(){
+        val loc = EasyLocation(this@HomeActivity, object: EasyLocation.EasyLocationCallBack{
+            override fun permissionDenied() {
+
+                Log.i("Location", "permission  denied")
+
+
+            }
+
+            override fun locationSettingFailed() {
+
+                Log.i("Location", "setting failed")
+
+
+            }
+
+            override fun getLocation(location: Location) {
+                latitude = location?.latitude.toString()
+                longitude = location?.longitude.toString()
+                Log.i("Location_lat_lng"," latitude ${location?.latitude} longitude ${location?.longitude}")
+
+
+
+            }
+        })
     }
 
 }

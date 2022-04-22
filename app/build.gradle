@@ -64,3 +64,8 @@ dependencies{
     def libVersion = "2.1.15"
     implementation "com.github.Drjacky:ImagePicker:$libVersion"
 }
+
+//easylocationfetch
+dependencies {
+    implementation 'com.github.robinkrsingh:easylocation:0.1.0'
+}
