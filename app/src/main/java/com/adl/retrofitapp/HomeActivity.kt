@@ -59,6 +59,7 @@ class HomeActivity : AppCompatActivity() {
 
         btn_checkout.setOnClickListener({
             getAbsen()
+            Toast.makeText(this@HomeActivity,"checkout success", Toast.LENGTH_LONG).show()
             finish()
         })
         btn_logout.setOnClickListener({

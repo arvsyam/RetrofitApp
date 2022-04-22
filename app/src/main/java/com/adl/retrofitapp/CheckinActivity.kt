@@ -2,6 +2,7 @@ package com.adl.retrofitapp
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.location.Location
 import android.net.Uri
 import android.os.Bundle
@@ -10,6 +11,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.adl.retrofitapp.model.AbsenItem
+import com.adl.retrofitapp.model.GetAbsenResponse
 import com.adl.retrofitapp.model.PostAbsenResponse
 import com.adl.retrofitapp.model.TableUserItem
 import com.adl.retrofitapp.service.RetrofitConfigAbsen
@@ -37,6 +40,9 @@ class CheckinActivity : AppCompatActivity() {
     var isUpload = false
     lateinit var latitude:String
     lateinit var longitude:String
+    lateinit var location:String
+    lateinit var absen:AbsenItem
+
 
     private val cameraLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (it.resultCode == Activity.RESULT_OK) {
@@ -65,10 +71,15 @@ class CheckinActivity : AppCompatActivity() {
         btn_absen_login.setOnClickListener({
             if (isUpload){
                 saveData(currentUser!!)
+                goToStatus()
 
             }else{
+                val intent = Intent(this@CheckinActivity, Status::class.java)
+//                intent.putExtra("data", absen)
+                startActivity(intent)
                 Toast.makeText(this, "failed",Toast.LENGTH_SHORT).show()
             }
+
         })
     }
 
@@ -87,7 +98,7 @@ class CheckinActivity : AppCompatActivity() {
         val sdf = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH)
         val time = sdf.format(localDate.time)
 
-
+        location = latitude+longitude
 
 
         RetrofitConfigAbsen().getService()
@@ -101,7 +112,7 @@ class CheckinActivity : AppCompatActivity() {
                         Log.d("resp","${response.body()}")
 
                         Toast.makeText(this@CheckinActivity,"Checkin Successfull", Toast.LENGTH_LONG).show()
-                        finish()
+
                     }else{
                         Log.d("not resp","${response.body()}")
                         Toast.makeText(this@CheckinActivity,"not Saved", Toast.LENGTH_LONG).show()
@@ -110,6 +121,34 @@ class CheckinActivity : AppCompatActivity() {
                 override fun onFailure(call: Call<PostAbsenResponse>, t: Throwable) {
                     Log.e("error request",t.localizedMessage,t)
                 }
+            })
+    }
+    fun goToStatus(){
+        RetrofitConfigAbsen().getService()
+            .getLast("-","DESC")
+            .enqueue(object : Callback<GetAbsenResponse> {
+                override fun onResponse(
+                    call: Call<GetAbsenResponse>,
+                    response: Response<GetAbsenResponse>
+                ) {
+                    if(response.isSuccessful()){
+//                        Log.d("absen","${response.body()?.data?.absen?.get(0)}")
+
+                        absen = response.body()?.data?.absen?.get(0)!!
+                        finish()
+                        val intent = Intent(this@CheckinActivity, Status::class.java)
+                        intent.putExtra("data", absen)
+                        startActivity(intent)
+
+                    }else{
+
+                        Toast.makeText(this@CheckinActivity,"not Saved", Toast.LENGTH_LONG).show()
+                    }
+                }
+                override fun onFailure(call: Call<GetAbsenResponse>, t: Throwable) {
+                    Log.e("error request",t.localizedMessage,t)
+                }
+
             })
     }
 
@@ -148,5 +187,30 @@ class CheckinActivity : AppCompatActivity() {
 
             }
         })
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        var currentUser =intent?.getParcelableExtra<TableUserItem>("data")
+        imageButton.setOnClickListener({
+            pickImage()
+            imageButton.setVisibility(View.GONE);
+            isUpload = true
+        })
+
+        btn_absen_login.setOnClickListener({
+            if (isUpload){
+                saveData(currentUser!!)
+                goToStatus()
+
+            }else{
+                val intent = Intent(this@CheckinActivity, Status::class.java)
+//                intent.putExtra("data", absen)
+                startActivity(intent)
+                Toast.makeText(this, "failed",Toast.LENGTH_SHORT).show()
+            }
+
+        })
+
     }
 }
