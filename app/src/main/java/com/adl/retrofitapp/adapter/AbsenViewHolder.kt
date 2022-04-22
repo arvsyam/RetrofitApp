@@ -18,11 +18,11 @@ class AbsenViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val cal = Calendar.getInstance()
         var cekOut = adapter.data.get(position)?.logout
 
-        val cekout = SimpleDateFormat("HH:mm").format(cal.time)
+        val sdf = SimpleDateFormat("HH:mm")
 
         tanggal.setText(adapter.data.get(position)?.login)
         masuk.setText(adapter.data.get(position)?.login)
-//        masuk.setText(formattedDate)
+        pulang.setText(adapter.data.get(position)?.login)
 
         }
 

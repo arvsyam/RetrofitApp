@@ -18,7 +18,7 @@ interface IAbsen {
     @Headers("X-Api-Key:FC35B899DC137F0CB6B56035FA37068A")
     @POST("api/absen/add")
     fun addAbsen(@Part("username") username: RequestBody,
-                 @Part("login") login: RequestBody,
+                 @Part ("login") login: RequestBody,
                  @Part("location") body: RequestBody,
                  @Part file: MultipartBody.Part):Call<PostAbsenResponse>
 

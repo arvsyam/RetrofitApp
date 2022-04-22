@@ -12,29 +12,30 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class HomeActivity : AppCompatActivity() {
+    var isCheckin = false
 
-    var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-            result ->
-        if(result.resultCode == Activity.RESULT_OK){
-
-        }
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
         var currentUser =intent?.getParcelableExtra<TableUserItem>("data")
         btn_checkin.setOnClickListener({
-
+            isCheckin = true
             val intent = Intent(this@HomeActivity, CheckinActivity::class.java)
             intent.putExtra("data", currentUser)
-            resultLauncher.launch(intent)
+            startActivity(intent)
         })
         btn_history.setOnClickListener({
             val intent = Intent(this@HomeActivity, HistoryActivity::class.java)
             intent.putExtra("data", currentUser)
             startActivity(intent)
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+
     }
 
 

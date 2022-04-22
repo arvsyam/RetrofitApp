@@ -1,24 +1,25 @@
 package com.adl.retrofitapp
 
 import android.app.Activity
-import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import com.adl.retrofitapp.model.PostAbsenResponse
 import com.adl.retrofitapp.model.TableUserItem
 import com.adl.retrofitapp.service.RetrofitConfigAbsen
 import com.github.drjacky.imagepicker.ImagePicker
 import kotlinx.android.synthetic.main.activity_checkin.*
 import kotlinx.android.synthetic.main.activity_main.*
+import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.create
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -29,7 +30,8 @@ import java.util.*
 class CheckinActivity : AppCompatActivity() {
     lateinit var photoURI: Uri
     var isUpload = false
-    var isCheckin = false
+    var MEDIA_TYPE_TEXT: MediaType? = "text/plain".toMediaTypeOrNull()
+
 
     private val cameraLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (it.resultCode == Activity.RESULT_OK) {
@@ -56,6 +58,7 @@ class CheckinActivity : AppCompatActivity() {
 
         btn_absen_login.setOnClickListener({
             if (isUpload){
+//                finish()
                 saveData()
 //                Toast.makeText(this, "success",Toast.LENGTH_SHORT).show()
 
@@ -76,12 +79,13 @@ class CheckinActivity : AppCompatActivity() {
     }
 
     fun saveData(){
+
         val localDate = Calendar.getInstance()
         val sdf = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH)
         val time = sdf.format(localDate.time)
-
+        Log.d("time","${time}")
         RetrofitConfigAbsen().getService()
-            .addAbsen(createRB(et_username.text.toString()),createRB("${time}"), createRB("2.12313 , -1.3213"),uploadImage(photoURI,"image"))
+            .addAbsen(createRB(et_username.text.toString()),createRB(time.toString()), createRB("2.12313 , -1.3213"),uploadImage(photoURI,"image"))
             .enqueue(object : Callback<PostAbsenResponse> {
                 override fun onResponse(
                     call: Call<PostAbsenResponse>,
