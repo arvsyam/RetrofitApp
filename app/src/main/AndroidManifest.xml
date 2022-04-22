@@ -14,6 +14,9 @@
         android:theme="@style/Theme.RetrofitApp"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".HistoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".Status"
             android:exported="false" />
         <activity
