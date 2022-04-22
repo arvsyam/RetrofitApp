@@ -1,6 +1,7 @@
 package com.adl.retrofitapp
 
 import android.content.Intent
+import android.graphics.Color
 import android.location.Location
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -42,12 +43,10 @@ class HomeActivity : AppCompatActivity() {
         setLocation()
 
         btn_checkout.setVisibility(View.GONE);
-        btn_history.isEnabled = false
-        txtCek.setText("Check In")
-
-
+        btn_checkout.isEnabled = false
 
         btn_checkin.setOnClickListener({
+            isCheckin = true
             val intent = Intent(this@HomeActivity, CheckinActivity::class.java)
             intent.putExtra("data", currentUser)
             startActivity(intent)
@@ -63,6 +62,7 @@ class HomeActivity : AppCompatActivity() {
             finish()
         })
         btn_logout.setOnClickListener({
+            isCheckin = false
             finish()
         })
 
@@ -77,13 +77,13 @@ class HomeActivity : AppCompatActivity() {
                     response: Response<GetAbsenResponse>
                 ) {
                     if(response.isSuccessful()){
-                        Log.d("absen","${response.body()?.data?.absen?.get(0)}")
+//                        Log.d("absen","${response.body()?.data?.absen?.get(0)}")
 
                         currentAbsen = response.body()?.data?.absen?.get(0)!!
                         updateAbsen(currentAbsen)
 
                     }else{
-                        Log.d("not resp","${response.body()}")
+//                        Log.d("not resp","${response.body()}")
                         Toast.makeText(this@HomeActivity,"not Saved", Toast.LENGTH_LONG).show()
                     }
                 }
@@ -107,7 +107,7 @@ class HomeActivity : AppCompatActivity() {
                     response: Response<PostAbsenResponse>
                 ) {
                     if(response.isSuccessful()){
-                        Log.d("resp","${response.body()}")
+//                        Log.d("resp","${response.body()}")
 //                        Toast.makeText(this@CheckinActivity,"Saved", Toast.LENGTH_LONG).show()
 //                        finish()
                     }else{
@@ -136,12 +136,26 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onRestart() {
         super.onRestart()
-        btn_checkin.isEnabled = false
-        btn_checkin.setVisibility(View.GONE);
-        btn_checkout.setVisibility(View.VISIBLE);
-        btn_checkin.isEnabled = true
-        btn_history.isEnabled = true
-        txtCek.setText("Check Out")
+        if(isCheckin){
+            btn_checkout.setVisibility(View.VISIBLE);
+            btn_history.isEnabled = true
+            txtCek.setText("Check Out")
+            btn_checkin.isEnabled = false
+            btn_checkin.setVisibility(View.GONE);
+            viewCheck.setBackgroundColor(Color.parseColor("#C3D5B3"));
+            viewHis.setBackgroundColor(Color.parseColor("#C3D5B3"));
+        }else{
+            btn_checkin.isEnabled = true
+            btn_checkout.setVisibility(View.GONE);
+//        btn_history.isEnabled = false
+            txtCek.setText("Check In")
+        }
+//        btn_checkin.isEnabled = false
+//        btn_checkin.setVisibility(View.GONE);
+//        btn_checkout.setVisibility(View.VISIBLE);
+//        btn_checkin.isEnabled = true
+//        btn_history.isEnabled = true
+//        txtCek.setText("Check Out")
     }
 
     fun setLocation(){
@@ -163,7 +177,7 @@ class HomeActivity : AppCompatActivity() {
             override fun getLocation(location: Location) {
                 latitude = location?.latitude.toString()
                 longitude = location?.longitude.toString()
-                Log.i("Location_lat_lng"," latitude ${location?.latitude} longitude ${location?.longitude}")
+//                Log.i("Location_lat_lng"," latitude ${location?.latitude} longitude ${location?.longitude}")
 
 
 

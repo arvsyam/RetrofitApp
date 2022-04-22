@@ -16,6 +16,11 @@ interface IAbsen {
 
     @Headers("X-Api-Key:FC35B899DC137F0CB6B56035FA37068A")
     @GET("api/absen/all?")
+    fun getUserAbsen(@Query("filter") filter:String,
+                     @Query("limit") limit:String): Call<GetAbsenResponse>
+
+    @Headers("X-Api-Key:FC35B899DC137F0CB6B56035FA37068A")
+    @GET("api/absen/all?")
     fun getLast(@Query("limit&sort_order") query:String): Call<GetAbsenResponse>
 
     @Multipart
@@ -36,8 +41,6 @@ interface IAbsen {
                  @Part("logout") logout: RequestBody,
                  @Part("location") body: RequestBody):Call<PostAbsenResponse>
 
-    @Headers("X-Api-Key:FC35B899DC137F0CB6B56035FA37068A")
-    @GET("api/table_user/detail")
-    fun getAbsen(@Field("id") id:String): Call<GetAbsenResponse>
+
 
 }

@@ -3,9 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="20dp"
-    android:elevation="20dp"
     android:background="#0000"
-    android:orientation="vertical">
+    android:elevation="50dp"
+    android:orientation="vertical"
+    android:outlineAmbientShadowColor="#4E4949"
+    android:outlineSpotShadowColor="#3A3535">
 
     <LinearLayout
         android:layout_width="match_parent"

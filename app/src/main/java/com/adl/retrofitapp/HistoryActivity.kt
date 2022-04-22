@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.adl.retrofitapp.adapter.AbsenAdapter
 import com.adl.retrofitapp.model.AbsenItem
 import com.adl.retrofitapp.model.GetAbsenResponse
+import com.adl.retrofitapp.model.TableUserItem
 import com.adl.retrofitapp.service.RetrofitConfigAbsen
 import kotlinx.android.synthetic.main.activity_history.*
 import retrofit2.Call
@@ -22,14 +23,18 @@ class HistoryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history)
-        loadData()
+
+        var currentUser =intent?.getParcelableExtra<TableUserItem>("data")!!
+        Log.d("taguser","${currentUser.username}")
+
+        loadData(currentUser)
 
     }
 
-    fun loadData(){
+    fun loadData(user:TableUserItem){
 
             RetrofitConfigAbsen().getService()
-                .getAll("-")
+                .getUserAbsen("${user.username}","-")
                 .enqueue(object : Callback<GetAbsenResponse> {
                     override fun onFailure(call: Call<GetAbsenResponse>, t: Throwable) {
                         Toast.makeText(this@HistoryActivity, t.localizedMessage, Toast.LENGTH_SHORT).show()
@@ -39,7 +44,7 @@ class HistoryActivity : AppCompatActivity() {
                         response: Response<GetAbsenResponse>
                     ) {
                         listAbsen = response.body()?.data?.absen as ArrayList<AbsenItem>
-                        Log.d("Response","${listAbsen.size}")
+                        Log.d("Responselist","${listAbsen.size}")
                         myAbsenAdapter = ArrayList(listAbsen)?.let { AbsenAdapter(it) }
                         rcAbsen.apply{
                             layoutManager = LinearLayoutManager(this@HistoryActivity)
