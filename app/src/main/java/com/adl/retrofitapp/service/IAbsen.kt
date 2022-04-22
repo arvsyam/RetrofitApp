@@ -21,7 +21,8 @@ interface IAbsen {
 
     @Headers("X-Api-Key:FC35B899DC137F0CB6B56035FA37068A")
     @GET("api/absen/all?")
-    fun getLast(@Query("limit&sort_order") query:String): Call<GetAbsenResponse>
+    fun getLast(@Query("limit") query:String,
+                @Query("sort_order") order:String): Call<GetAbsenResponse>
 
     @Multipart
     @Headers("X-Api-Key:FC35B899DC137F0CB6B56035FA37068A")

@@ -70,7 +70,7 @@ class HomeActivity : AppCompatActivity() {
 
     fun getAbsen(){
         RetrofitConfigAbsen().getService()
-            .getLast("-&DESC")
+            .getLast("-","DESC")
             .enqueue(object : Callback<GetAbsenResponse> {
                 override fun onResponse(
                     call: Call<GetAbsenResponse>,
@@ -138,6 +138,7 @@ class HomeActivity : AppCompatActivity() {
         super.onRestart()
         if(isCheckin){
             btn_checkout.setVisibility(View.VISIBLE);
+            btn_checkout.isEnabled = true
             btn_history.isEnabled = true
             txtCek.setText("Check Out")
             btn_checkin.isEnabled = false
